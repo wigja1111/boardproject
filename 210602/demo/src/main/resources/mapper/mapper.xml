@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.dao.MembersDAO">
+
+<select id="testMember" resultType="com.example.demo.dto.Member">
+		SELECT * FROM members
+	</select>
+	
+	<select id="board_Free" resultType="com.example.demo.dto.Board_free">
+		SELECT title, content, writer FROM board_free
+	</select>
+	
+	<select id="boarddetail_free" resultType="com.example.demo.dto.Board_free">
+		SELECT boardid, title, content, writer, click_num FROM board_free
+	</select>
+	
+	<!-- 게시글 조회시 값 가져오기 -->
+	<select id="viewDetail" parameterType="int" resultType="com.example.demo.dto.Board_free">
+	SELECT * FROM board_free WHERE boardid = #{boardid}
+	</select>
+	
+	<!-- 조회수 +1 -->
+	<update id="click_num_plus" parameterType="int">
+	  UPDATE board_free SET click_num = click_num + 1 WHERE boardid = #{boardid}
+	</update>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="deleteBoard" parameterType="int">
+		DELETE FROM board_free WHERE boardid = #{boardid}
+	</delete>
+	
+	<!-- 게시글 수정시 값 가져오기 -->
+	<select id="viewUpdate" parameterType="int" resultType="com.example.demo.dto.Board_free">
+	SELECT * FROM board_free WHERE boardid = #{boardid}
+	</select>
+	
+	
+	
+	<!-- 게시글 쓰기 -->
+	<insert id="insertBoard" parameterType="com.example.demo.dto.Board_free" useGeneratedKeys="true" >
+	INSERT INTO
+		board_free (title, content, writer, date,click_num)
+	VALUES
+		(#{title}, #{content}, #{writer},now(),0)		
+	</insert>
+	
+	
+	<!-- 게시글 수정 -->
+	<insert id="updateBoard" parameterType="com.example.demo.dto.Board_free" useGeneratedKeys="true" >
+    UPDATE board_free SET title = #{title},content = #{content} WHERE boardid = #{boardid}
+    
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+<select id="getMember" parameterType="int" resultType="com.example.demo.dto.Member">
+	SELECT * FROM members WHERE id = #{id}
+</select>
+
+<insert id="insertMember" parameterType="com.example.demo.dto.Member" useGeneratedKeys="true" keyProperty="id">
+	INSERT INTO
+		members (name, age, dept)
+	VALUES
+		(#{name}, #{age}, #{dept})		
+</insert>
+
+
+<!-- update는 갱신에 성공한 레코드 수를 반환 함 -->
+<update id="updateMember">
+	UPDATE
+	    members
+	SET
+	    name = #{member.name}, age = #{member.age}, dept= #{member.dept}
+	WHERE
+	    id = #{id}
+</update>
+
+
+</mapper>
